@@ -5,7 +5,7 @@ import json
 import urllib.parse
 
 def get_upi_id():
-    usage = 10
+    usage = 50
     upi_obj = UpiId.objects.filter(active=True).order_by('usage_count').first()
     upi_obj.usage_count += 1
     if upi_obj.usage_count > usage:
@@ -32,6 +32,8 @@ def home(request):
     invoiceNo	Invoice Number. Identifier of a bill/invoice.
     invoiceDate	The time of invoice in RFC 3339 format. Eg, 2017-02-15T16:20:30+05:30 for IST timezone).
     gstIn	Business GSTIN. Goods and Services Tax Identification Number.
+    url 
+    mode 
 
     upi://pay?tr=202101345671229366&tid=121313202101345671229366&pa=juspay@axisbank&mc=1234&pn= Merchant%20Inc&am=1.00&cu=INR&tn=Pay%20for%20merchant
     upi://pay?tr=...(enter the tr).......&tid=...(enter the tid).......&pa=.....(enter merchant_vpa)...&mc=....(enter the mcc)...&pn=....(enter
@@ -44,14 +46,14 @@ the Merchant name)...&am=.....(enter the amount).....&cu=INR&tn=....(description
         upi_id = get_upi_id()
         if upi_id:
             if request.POST.get('upi_app') == 'gpay':
-                upi_app = 'tez://upi/pay'
+                upi_app = 'gpay://upi/pay'
             elif request.POST.get('upi_app') == 'phonepe':
                 upi_app = 'phonepe://pay'
             elif request.POST.get('upi_app') == 'paytm':
                 upi_app = 'paytmmp://pay'
             else:
                 upi_app = 'upi://pay'
-            redirect_url = upi_app + "?pa=" + urllib.parse.quote_plus(upi_id) + "&am=" + request.POST['amount'] + "&tn=" + urllib.parse.quote_plus(request.POST['desc']) + "&pn="+ urllib.parse.quote_plus("Nikhil Mhatre")
+            redirect_url = upi_app + "?pa=" + urllib.parse.quote_plus(upi_id) + "&am=" + request.POST['amount'] +"&tn=" + urllib.parse.quote_plus(request.POST['desc']) + "&pn="+ urllib.parse.quote_plus("Kunal Chavan") + "&tn=&am=&cu=INR&url=&mode=02&purpose=00"
             context['upi'] = redirect_url
         else:
             context['upi'] = 'UPI ID NOT available'
