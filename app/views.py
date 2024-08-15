@@ -53,7 +53,7 @@ the Merchant name)...&am=.....(enter the amount).....&cu=INR&tn=....(description
                 upi_app = 'paytmmp://pay'
             else:
                 upi_app = 'upi://pay'
-            redirect_url = upi_app + "?pa=" + urllib.parse.quote_plus(upi_id) + "&am=" + request.POST['amount'] +"&tn=" + urllib.parse.quote_plus(request.POST['desc']) + "&pn="+ urllib.parse.quote_plus("Kunal Chavan") + "&tn=&am=&cu=INR&url=&mode=02&purpose=00"
+            redirect_url = upi_app + "?pa=" + urllib.parse.quote_plus(upi_id) + "&am=" + request.POST['amount'] +"&tn=" + urllib.parse.quote_plus(request.POST['desc']) + "&pn="+ urllib.parse.quote_plus("Kunal Chavan") + "&tn=&am=&cu=INR&url=&mode=04&purpose=00"
             context['upi'] = redirect_url
         else:
             context['upi'] = 'UPI ID NOT available'
