@@ -1,0 +1,53 @@
+<form method="post">
+    {% csrf_token %}
+    <table>
+        <tr>
+          <td>Amount:</td>
+          <td><input type='text' name='amount' value = '100'></input></td>
+        </tr>
+        <tr>
+            <td>Desc:</td>
+            <td><input type='text' name='desc' value='ref:1234'></input></td>
+        </tr>
+        <tr>
+            <td>UPI App:</td>
+        </tr>
+        <tr>
+            <td><input type="radio" name="upi_app" value="gpay">Gpay</td>
+            <td><input type="radio" name="upi_app" value="phonepe">PhonePe</td>
+            <td><input type="radio" name="upi_app" value="paytm">Paytm</td>
+        </tr>
+        <tr>
+            <td>
+                <input type='submit'></input>
+            </td>
+        </tr>
+      </table>
+</form>
+{% if upi %}
+<a href='{{ upi }}'>{{ upi }}</a>
+{% endif %}
+{% comment %} <a href='upi://pay?tr=202101345671229366&tid=121313202101345671229366&pa=juspay@axisbank&mc=1234&pn= Merchant%20Inc&am=1.00&cu=INR&tn=Pay%20for%20merchant'>test</a> {% endcomment %}
+
+{% comment %} Format:
+upi://pay?tr=...(enter the tr).......&tid=...(enter the tid).......&pa=.....(enter merchant_vpa)...&mc=....(enter the mcc)...&pn=....(enter
+the Merchant name)...&am=.....(enter the amount).....&cu=INR&tn=....(description for the transaction).. {% endcomment %}
+
+<hr>
+{% if upi_table %}
+<table>
+    <th>
+        <td>upi id</td>
+        <td>usage</td>
+        <td>active</td>
+    </th>
+    {% for r in upi_table %}
+    <tr>
+        <td></td>
+        <td>{{ r.upi_id }}</td>
+        <td>{{ r.usage_count }}</td>
+        <td>{{ r.active }}</td>
+        
+    </tr>
+    {% endfor %}
+{% endif %}
