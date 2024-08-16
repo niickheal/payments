@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .models import *
 import json
 import urllib.parse
-from signqr import sign_qr
+from app.signqr import sign_qr
 from datetime import datetime
 
 def get_upi_id():
