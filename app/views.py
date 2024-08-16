@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .models import *
 import json
 import urllib.parse
+from signqr import sign_qr
 
 def get_upi_id():
     usage = 50
@@ -57,7 +58,7 @@ the Merchant name)...&am=.....(enter the amount).....&cu=INR&tn=....(description
             else:
                 upi_app = 'upi://pay'
             redirect_url = upi_app + "?ver=01&pa=" + urllib.parse.quote_plus(upi_id) + "&am=" + request.POST['amount'] +"&tn=" + urllib.parse.quote_plus(request.POST['desc']) + "&pn="+ urllib.parse.quote_plus("Kunal Chavan") + f"&mode=22&tr=1232423&mc=0000&qrMedium=06"
-            context['upi'] = redirect_url
+            context['upi'] = sign_qr(redirect_url)
         else:
             context['upi'] = 'UPI ID NOT available'
     return render(request,'index.html',context)
