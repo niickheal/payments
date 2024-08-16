@@ -4,6 +4,7 @@ from .models import *
 import json
 import urllib.parse
 from signqr import sign_qr
+from datetime import datetime
 
 def get_upi_id():
     usage = 50
@@ -48,6 +49,7 @@ the Merchant name)...&am=.....(enter the amount).....&cu=INR&tn=....(description
     }
     if request.method == "POST":
         upi_id = get_upi_id()
+        tr_id = datetime.now().strftime("%d%m%Y%H%M%S")
         if upi_id:
             if request.POST.get('upi_app') == 'gpay':
                 upi_app = 'gpay://upi/pay'
@@ -57,7 +59,7 @@ the Merchant name)...&am=.....(enter the amount).....&cu=INR&tn=....(description
                 upi_app = 'paytmmp://pay'
             else:
                 upi_app = 'upi://pay'
-            redirect_url = upi_app + "?ver=01&pa=" + urllib.parse.quote_plus(upi_id) + "&am=" + request.POST['amount'] +"&tn=" + urllib.parse.quote_plus(request.POST['desc']) + "&pn="+ urllib.parse.quote_plus("Kunal Chavan") + f"&mode=22&tr=1232423&mc=0000&qrMedium=06"
+            redirect_url = upi_app + "?ver=01&pa=" + urllib.parse.quote_plus(upi_id) + "&am=" + request.POST['amount'] +"&tn=" + urllib.parse.quote_plus(request.POST['desc']) + "&pn="+ urllib.parse.quote_plus("Kunal Chavan") + f"&mode=22&tr="+tr_id+"&mc=0000&qrMedium=06"
             context['upi'] = sign_qr(redirect_url)
         else:
             context['upi'] = 'UPI ID NOT available'
